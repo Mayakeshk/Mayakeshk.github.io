@@ -869,7 +869,7 @@ swipe(g.querySelector('.gview'));swipe(lb);show(1);
 var dds=document.querySelectorAll('.dd'),touch=matchMedia('(hover: none)');
 function closeAll(x){dds.forEach(function(d){if(d!==x){d.classList.remove('open');d.querySelector('.ddt').setAttribute('aria-expanded','false')}})}
 dds.forEach(function(d){var t=d.querySelector('.ddt');
-  t.addEventListener('click',function(e){if(touch.matches&&!d.classList.contains('open')){e.preventDefault();closeAll(d);d.classList.add('open');t.setAttribute('aria-expanded','true')}else{closeAll(null)}});
+  t.addEventListener('click',function(e){e.preventDefault();if(d.classList.contains('open')){closeAll(null);t.blur()}else{closeAll(d);d.classList.add('open');t.setAttribute('aria-expanded','true')}});
   d.addEventListener('mouseenter',function(){t.setAttribute('aria-expanded','true')});
   d.addEventListener('mouseleave',function(){if(!d.classList.contains('open'))t.setAttribute('aria-expanded','false')});
   d.querySelectorAll('.ddm a').forEach(function(a){a.addEventListener('click',function(){closeAll(null);if(document.activeElement)document.activeElement.blur()})});

@@ -300,7 +300,7 @@ nav.top .ddm a:hover,nav.top .ddm a:focus-visible{background:var(--paper);color:
 nav.top .ddm a.ddall{font-weight:600;border-bottom:1px solid var(--line);border-radius:4px 4px 0 0;margin-bottom:4px}
 @media (hover:hover){.dd:hover .ddm{display:block}}
 .dd:focus-within .ddm,.dd.open .ddm{display:block}
-@media (max-width:620px){.ddm{position:fixed;left:16px;right:16px;top:auto;min-width:0}}
+@media (max-width:620px){.ddm{position:fixed;left:16px;right:16px;top:var(--navb,64px);min-width:0;max-height:calc(100vh - var(--navb,64px) - 24px);overflow-y:auto}}
 
 nav.top a.lang{font-weight:600;color:var(--ink);border:1px solid var(--line);border-radius:99px;padding:3px 10px}
 nav.top a.lang:hover{border-color:var(--ink)}
@@ -896,9 +896,10 @@ swipe(g.querySelector('.gview'));swipe(lb);show(1);
 <script>
 (function(){
 var dds=document.querySelectorAll('.dd'),touch=matchMedia('(hover: none)');
+var navEl=document.querySelector('nav.top');function setNB(){document.documentElement.style.setProperty('--navb',Math.round(navEl.getBoundingClientRect().bottom)+'px')}setNB();window.addEventListener('scroll',setNB,{passive:true});window.addEventListener('resize',setNB);
 function closeAll(x){dds.forEach(function(d){if(d!==x){d.classList.remove('open');d.querySelector('.ddt').setAttribute('aria-expanded','false')}})}
 dds.forEach(function(d){var t=d.querySelector('.ddt');
-  t.addEventListener('click',function(e){e.preventDefault();if(d.classList.contains('open')){closeAll(null);t.blur()}else{closeAll(d);d.classList.add('open');t.setAttribute('aria-expanded','true')}});
+  t.addEventListener('click',function(e){e.preventDefault();if(d.classList.contains('open')){closeAll(null);t.blur()}else{setNB();closeAll(d);d.classList.add('open');t.setAttribute('aria-expanded','true')}});
   d.addEventListener('mouseenter',function(){t.setAttribute('aria-expanded','true')});
   d.addEventListener('mouseleave',function(){if(!d.classList.contains('open'))t.setAttribute('aria-expanded','false')});
   d.querySelectorAll('.ddm a').forEach(function(a){a.addEventListener('click',function(){closeAll(null);if(document.activeElement)document.activeElement.blur()})});
